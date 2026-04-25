@@ -6,6 +6,9 @@ import CalculatorForm from '@/app/components/CalculatorForm';
 import DecisionBadge from '@/app/components/DecisionBadge';
 import ResultsPanel from '@/app/components/ResultsPanel';
 import SensitivityTable from '@/app/components/SensitivityTable';
+import InterpretationCard from '@/app/components/InterpretationCard';
+import InfluenceCard from '@/app/components/InfluenceCard';
+import SensitivityChart from '@/app/components/SensitivityChart';
 
 // ─── Wartości domyślne (z arkusza "Model", kolumna C) ────────────────────────
 
@@ -66,6 +69,29 @@ export default function Home() {
       {/* Analiza wrażliwości */}
       <div className="max-w-5xl mx-auto mt-6">
         <SensitivityTable input={input} financingCost={result.financingCost} />
+      </div>
+
+      {/* Wykres wrażliwości */}
+      <div className="max-w-5xl mx-auto mt-6">
+        <SensitivityChart
+          input={input}
+          financingCost={result.financingCost}
+          breakEvenPrice={result.breakEvenPrice}
+        />
+      </div>
+
+      {/* Interpretacja wyniku */}
+      <div className="max-w-5xl mx-auto mt-6">
+        <InterpretationCard netResult={result.netResult} />
+      </div>
+
+      {/* Kluczowe czynniki */}
+      <div className="max-w-5xl mx-auto mt-6">
+        <InfluenceCard
+          priceDiff={result.priceDiff}
+          wacc={input.wacc}
+          months={input.months}
+        />
       </div>
 
       {/* Stopka */}

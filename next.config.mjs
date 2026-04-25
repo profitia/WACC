@@ -1,8 +1,7 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  // Ustaw basePath na nazwę repozytorium GitHub, np. '/Kalkulator'
-  // basePath: '/Kalkulator',
+  assetPrefix: '/WACC/',
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },
