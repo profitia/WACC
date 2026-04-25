@@ -34,6 +34,9 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50 py-10 px-4">
+      {/* Baner testowy */}
+      <p className="text-center text-2xl font-bold text-red-600 mb-6">VERSION 2 – TEST</p>
+
       {/* Nagłówek */}
       <div className="max-w-5xl mx-auto mb-8">
         <div className="flex items-start gap-4">
