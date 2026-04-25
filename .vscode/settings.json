@@ -1,0 +1,20 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"/Users/tomaszuscinski/Documents/Visual Code Studio/Kalkulator\" && npx create-next-app@14 \\. --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/\\*\" --no-turbo$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python3 -c \"import openpyxl; print\\('openpyxl is installed'\\)\" \\|\\| pip install openpyxl$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cat << 'EOF' > extract_excel\\.py\nimport openpyxl\nimport os\n\nfile_path = '/Users/tomaszuscinski/Documents/Visual Code Studio/Kalkulator/Model oszczędności vs\\. WACC\\.xlsx'\n\nif not os\\.path\\.exists\\(file_path\\):\n    print\\(f\"Error: File not found at \\{file_path\\}\"\\)\n    exit\\(1\\)\n\ntry:\n    wb = openpyxl\\.load_workbook\\(file_path, data_only=False\\)\n\n    for sheet_name in wb\\.sheetnames:\n        ws = wb\\[sheet_name\\]\n        print\\(f\"\\\\n=== SHEET: \\{sheet_name\\} ===\"\\)\n        for row in ws\\.iter_rows\\(\\):\n            for cell in row:\n                if cell\\.value is not None:\n                    print\\(f\"  \\{cell\\.coordinate\\}: \\{repr\\(cell\\.value\\)\\}\"\\)\nexcept Exception as e:\n    print\\(f\"An error occurred: \\{e\\}\"\\)\nEOF\npython3 extract_excel\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python3 -m pip install openpyxl && python3 extract_excel\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
