@@ -1,12 +1,12 @@
 const isVercel = process.env.VERCEL === '1';
 
 const nextConfig = {
-  output: 'export',
-  // basePath i assetPrefix tylko dla GitHub Pages (subdirectory /WACC)
-  // Na Vercelu app żyje w root "/" — bez prefixu
+  // Na Vercelu: natywny deployment Next.js — BEZ static export i BEZ basePath
+  // Na GitHub Pages: static export z basePath /WACC (subdirectory hosting)
   ...(isVercel
     ? {}
     : {
+        output: 'export',
         basePath: '/WACC',
         assetPrefix: '/WACC/',
       }),

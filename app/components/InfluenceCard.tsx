@@ -15,11 +15,11 @@ function FactorItem({ icon, label, value, description }: Factor) {
       <div className="shrink-0 rounded-xl bg-blue-100 p-2.5 text-blue-600">
         {icon}
       </div>
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-0.5">
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-0.5 break-words">
           {label}
         </p>
-        <p className="text-lg font-bold text-slate-800 leading-tight">{value}</p>
+        <p className="text-base font-bold text-slate-800 leading-tight break-words">{value}</p>
         <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{description}</p>
       </div>
     </div>

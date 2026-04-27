@@ -57,30 +57,40 @@ export default function DecisionBadge({ netResult }: Props) {
   const variant = getVariant(netResult);
   const { bg, label, comment, icon } = CONFIG[variant];
   const prefix = netResult > 0 ? '+' : '';
+  const businessSentence =
+    variant === 'profitable'
+      ? `Wcześniejszy zakup generuje realne oszczędności względem kosztu kapitału.`
+      : variant === 'unprofitable'
+        ? `Koszt kapitału i składowania przewyższa prognozowaną korzyść cenową.`
+        : `Wynik jest na granicy — każda zmiana parametrów może go odwrócić.`;
 
   return (
-    <div className={`rounded-3xl p-10 text-white shadow-xl ${bg}`}>
-      {/* Tiny label row */}
-      <div className="flex items-center gap-2 mb-4">
-        <div className="shrink-0 opacity-80">{icon}</div>
-        <p className="text-xs font-semibold uppercase tracking-widest opacity-70">
-          Ocena decyzji zakupowej
+    <div className="flex justify-center">
+      <div className={`w-full max-w-[640px] rounded-2xl p-7 text-white shadow-lg ${bg}`}>
+        {/* Tiny label row */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="shrink-0 opacity-80">{icon}</div>
+          <p className="min-w-0 text-xs font-semibold uppercase tracking-widest opacity-70">
+            Ocena decyzji zakupowej
+          </p>
+        </div>
+
+        {/* Status name */}
+        <p className="text-sm font-semibold opacity-80 mb-2">{label}</p>
+
+        {/* DOMINANT: net result number */}
+        <p className="text-4xl xl:text-5xl font-black tracking-tight leading-none tabular-nums mb-4 break-words">
+          {prefix}{pln(netResult)}
         </p>
+
+        {/* Separator */}
+        <div className="w-12 h-px bg-white/25 mb-3" />
+
+        {/* Short explanation */}
+        <p className="text-sm opacity-75 leading-relaxed mb-1">{comment}</p>
+        {/* Business sentence */}
+        <p className="text-xs opacity-60 leading-relaxed">{businessSentence}</p>
       </div>
-
-      {/* Status name */}
-      <p className="text-base font-semibold opacity-80 mb-3">{label}</p>
-
-      {/* DOMINANT: net result number */}
-      <p className="text-5xl xl:text-6xl font-black tracking-tight leading-none tabular-nums mb-5">
-        {prefix}{pln(netResult)}
-      </p>
-
-      {/* Separator */}
-      <div className="w-16 h-px bg-white/25 mb-4" />
-
-      {/* Explanation */}
-      <p className="text-sm opacity-70 leading-relaxed">{comment}</p>
     </div>
   );
 }

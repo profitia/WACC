@@ -110,7 +110,7 @@ export default function InterpretationCard({ netResult }: Props) {
         </div>
 
         {/* Tekst */}
-        <div>
+        <div className="min-w-0">
           <p className={`text-base font-bold leading-snug mb-2 ${styles.title}`}>
             {headline}
           </p>

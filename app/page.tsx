@@ -45,7 +45,7 @@ export default function Home() {
       </header>
 
       {/* ── Main 2-column layout ── */}
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[38%_1fr] gap-10 xl:gap-12 items-start">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 xl:grid-cols-[38%_62%] gap-8 items-start">
 
         {/* ── Left column: Form + Key Factors ── */}
         <div className="flex flex-col gap-6">
@@ -58,7 +58,7 @@ export default function Home() {
         </div>
 
         {/* ── Right column: dashboard panel ── */}
-        <div className="bg-white rounded-3xl shadow-lg p-8 flex flex-col gap-8">
+        <div className="bg-white rounded-2xl shadow-md p-7 flex flex-col gap-6 min-w-0">
           <DecisionBadge netResult={result.netResult} />
           <ResultsPanel result={result} storageCost={input.storageCost} />
           <InterpretationCard netResult={result.netResult} />

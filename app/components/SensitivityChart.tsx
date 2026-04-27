@@ -114,7 +114,7 @@ export default function SensitivityChart({ input, financingCost, breakEvenPrice 
   const data = buildData(input, financingCost);
 
   return (
-    <div className="rounded-2xl bg-slate-50 border border-slate-100 p-6">
+    <div>
       {/* Nagłówek */}
       <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">
         Wykres

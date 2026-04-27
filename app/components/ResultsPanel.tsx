@@ -16,10 +16,9 @@ interface KPICardProps {
   subLabel?: string;
   highlight?: 'positive' | 'negative' | 'neutral';
   icon: React.ReactNode;
-  wide?: boolean;
 }
 
-function KPICard({ label, value, subLabel, highlight, icon, wide }: KPICardProps) {
+function KPICard({ label, value, subLabel, highlight, icon }: KPICardProps) {
   const valueColor =
     highlight === 'positive'
       ? 'text-emerald-600'
@@ -28,17 +27,17 @@ function KPICard({ label, value, subLabel, highlight, icon, wide }: KPICardProps
         : 'text-slate-800';
 
   return (
-    <div className={`rounded-xl bg-slate-50 border border-slate-100 p-6 flex flex-col gap-3 ${wide ? 'col-span-2' : ''}`}>
+    <div className="rounded-xl bg-white border border-slate-200 shadow-sm p-5 flex flex-col gap-3 min-w-0">
       <div className="flex items-start justify-between gap-2">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 leading-snug">
+        <p className="min-w-0 text-xs font-semibold uppercase tracking-wide text-slate-400 leading-snug">
           {label}
         </p>
         <div className="shrink-0 rounded-lg bg-white border border-slate-200 p-1.5 text-slate-400 shadow-sm">
           {icon}
         </div>
       </div>
-      <div>
-        <p className={`text-3xl font-bold tabular-nums leading-tight ${valueColor}`}>
+      <div className="min-w-0">
+        <p className={`text-2xl font-bold tabular-nums leading-tight break-words ${valueColor}`}>
           {value}
         </p>
         {subLabel && (
@@ -113,7 +112,6 @@ export default function ResultsPanel({ result }: Props) {
           value={pln(netResult)}
           highlight={netResult >= 0 ? 'positive' : 'negative'}
           icon={<IconNet />}
-          wide
         />
         <KPICard
           label="ROI zakupu"
