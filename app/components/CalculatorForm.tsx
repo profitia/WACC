@@ -22,20 +22,20 @@ interface Props {
 function InputField({ label, unit, value, onChange, min = 0, step = 1, hint }: InputFieldProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium text-slate-600">
+      <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
         {label}
-        {hint && <span className="ml-1 text-xs text-slate-400">({hint})</span>}
+        {hint && <span className="ml-1 normal-case font-normal text-slate-400">({hint})</span>}
       </label>
-      <div className="flex items-center rounded-lg border border-slate-200 bg-white shadow-sm focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition">
+      <div className="flex items-center rounded-lg border border-slate-200 bg-white shadow-sm focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-500/30 transition">
         <input
           type="number"
           min={min}
           step={step}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="flex-1 rounded-l-lg px-3 py-2.5 text-right text-slate-800 font-semibold text-sm outline-none bg-transparent"
+          className="flex-1 rounded-l-lg px-3 py-2 text-right text-slate-800 font-semibold text-sm outline-none bg-transparent"
         />
-        <span className="px-3 py-2.5 text-xs text-slate-400 border-l border-slate-200 bg-slate-50 rounded-r-lg whitespace-nowrap">
+        <span className="px-2.5 py-2 text-xs text-slate-400 border-l border-slate-200 bg-slate-50 rounded-r-lg whitespace-nowrap">
           {unit}
         </span>
       </div>
@@ -47,13 +47,13 @@ function InputField({ label, unit, value, onChange, min = 0, step = 1, hint }: I
 
 export default function CalculatorForm({ values, onChange }: Props) {
   return (
-    <div className="rounded-2xl bg-white shadow-sm border border-slate-200 p-6 xl:p-8">
-      <h2 className="text-base xl:text-lg font-semibold text-slate-700 mb-5 xl:mb-6 flex items-center gap-2">
+    <div className="rounded-2xl bg-white shadow-sm border border-slate-200 p-5">
+      <h2 className="text-sm font-semibold text-slate-500 mb-4 flex items-center gap-2 uppercase tracking-wide">
         <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" />
         Założenia wejściowe
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <InputField
           label="Cena zakupu w T0"
           unit="PLN / szt."
@@ -102,7 +102,7 @@ export default function CalculatorForm({ values, onChange }: Props) {
       </div>
 
       {/* Wzory – skrót */}
-      <div className="mt-6 rounded-xl bg-slate-50 border border-slate-100 p-4 text-xs text-slate-400 leading-relaxed space-y-1">
+      <div className="mt-4 rounded-xl bg-slate-50 border border-slate-100 p-3.5 text-xs text-slate-400 leading-relaxed space-y-1">
         <p>
           <span className="font-semibold text-slate-500">Korzyść brutto</span>
           {' '}= (Cena T1 − Cena T0) × Wolumen

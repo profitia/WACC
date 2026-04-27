@@ -114,17 +114,17 @@ export default function SensitivityChart({ input, financingCost, breakEvenPrice 
   const data = buildData(input, financingCost);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6">
+    <div className="rounded-2xl bg-slate-50 border border-slate-100 p-6">
       {/* Nagłówek */}
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-1">
-        Wykres wrażliwości
+      <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">
+        Wykres
       </p>
       <p className="text-base font-bold text-slate-800 mb-6">
         Wynik netto wg scenariusza ceny T1
       </p>
 
       {/* Wykres */}
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={340}>
         <BarChart data={data} margin={{ top: 40, right: 16, bottom: 0, left: 16 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
           <XAxis

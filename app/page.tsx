@@ -29,28 +29,27 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50 py-10 px-4 xl:px-8">
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-8 px-4 lg:px-8">
 
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="max-w-[1400px] mx-auto mb-8">
-        <h1 className="text-2xl xl:text-3xl font-bold text-slate-800 leading-tight">
-          Model oszczędności vs. WACC
-        </h1>
-      </div>
-
-      {/* ── Main grid: 1 col → 2 col (lg) → 3 col (xl) ──────────────────── */}
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-10 items-start">
-
-        {/* Col 1 — Form */}
-        <div className="lg:col-span-1">
-          <CalculatorForm values={input} onChange={handleChange} />
+      {/* ── Header ── */}
+      <header className="max-w-[1400px] mx-auto mb-10">
+        <div className="flex flex-wrap items-baseline gap-3">
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+            Model oszczędności vs. WACC
+          </h1>
+          <span className="text-sm font-medium text-slate-400 uppercase tracking-wide">Kalkulator decyzji zakupowej</span>
         </div>
+        <p className="mt-2 text-sm text-slate-500">
+          Oceń opłacalność wcześniejszego zakupu względem kosztu kapitału i kosztów składowania.
+        </p>
+      </header>
 
-        {/* Col 2 — Results + cards */}
-        <div className="flex flex-col gap-6 lg:col-span-1">
-          <DecisionBadge netResult={result.netResult} />
-          <ResultsPanel result={result} storageCost={input.storageCost} />
-          <InterpretationCard netResult={result.netResult} />
+      {/* ── Main 2-column layout ── */}
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[38%_1fr] gap-10 xl:gap-12 items-start">
+
+        {/* ── Left column: Form + Key Factors ── */}
+        <div className="flex flex-col gap-6">
+          <CalculatorForm values={input} onChange={handleChange} />
           <InfluenceCard
             priceDiff={result.priceDiff}
             wacc={input.wacc}
@@ -58,17 +57,27 @@ export default function Home() {
           />
         </div>
 
-        {/* Col 3 — Chart (desktop only: moves from below to right column) */}
-        <div className="lg:col-span-2 xl:col-span-1">
-          <SensitivityChart
-            input={input}
-            financingCost={result.financingCost}
-            breakEvenPrice={result.breakEvenPrice}
-          />
+        {/* ── Right column: dashboard panel ── */}
+        <div className="bg-white rounded-3xl shadow-lg p-8 flex flex-col gap-8">
+          <DecisionBadge netResult={result.netResult} />
+          <ResultsPanel result={result} storageCost={input.storageCost} />
+          <InterpretationCard netResult={result.netResult} />
+
+          {/* Chart section */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">
+              Analiza wrażliwości
+            </p>
+            <SensitivityChart
+              input={input}
+              financingCost={result.financingCost}
+              breakEvenPrice={result.breakEvenPrice}
+            />
+          </div>
         </div>
       </div>
 
-      {/* ── Sensitivity table — full width below ──────────────────────────── */}
+      {/* ── Sensitivity table — full width below ── */}
       <div className="max-w-[1400px] mx-auto mt-8 xl:mt-10">
         <SensitivityTable input={input} financingCost={result.financingCost} />
       </div>

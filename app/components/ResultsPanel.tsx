@@ -1,151 +1,141 @@
 import type { Output } from '@/app/lib/calculations';
-import { pln, pct, num } from '@/app/lib/formatters';
+import { pln } from '@/app/lib/formatters';
 
 // ─── Typy ─────────────────────────────────────────────────────────────────────
-
-type Highlight = 'positive' | 'negative' | 'neutral';
-
-interface ResultRowProps {
-  label: string;
-  value: string;
-  highlight?: Highlight;
-  large?: boolean;
-}
 
 interface Props {
   result: Output;
   storageCost: number;
 }
 
-// ─── Wewnętrzny wiersz wyniku ─────────────────────────────────────────────────
+// ─── KPI Card ─────────────────────────────────────────────────────────────────
 
-function ResultRow({ label, value, highlight, large }: ResultRowProps) {
+interface KPICardProps {
+  label: string;
+  value: string;
+  subLabel?: string;
+  highlight?: 'positive' | 'negative' | 'neutral';
+  icon: React.ReactNode;
+  wide?: boolean;
+}
+
+function KPICard({ label, value, subLabel, highlight, icon, wide }: KPICardProps) {
   const valueColor =
     highlight === 'positive'
       ? 'text-emerald-600'
       : highlight === 'negative'
         ? 'text-red-500'
-        : 'text-slate-700';
+        : 'text-slate-800';
 
   return (
-    <div
-      className={`flex items-center justify-between border-b border-slate-100 last:border-0 ${
-        large ? 'py-3' : 'py-2'
-      }`}
-    >
-      <span className={`text-sm ${large ? 'font-medium text-slate-600' : 'text-slate-500'}`}>
-        {label}
-      </span>
-      <span className={`font-semibold tabular-nums ${valueColor} ${large ? 'text-base' : 'text-sm'}`}>
-        {value}
-      </span>
+    <div className={`rounded-xl bg-slate-50 border border-slate-100 p-6 flex flex-col gap-3 ${wide ? 'col-span-2' : ''}`}>
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 leading-snug">
+          {label}
+        </p>
+        <div className="shrink-0 rounded-lg bg-white border border-slate-200 p-1.5 text-slate-400 shadow-sm">
+          {icon}
+        </div>
+      </div>
+      <div>
+        <p className={`text-3xl font-bold tabular-nums leading-tight ${valueColor}`}>
+          {value}
+        </p>
+        {subLabel && (
+          <p className="text-xs text-slate-400 mt-1">{subLabel}</p>
+        )}
+      </div>
     </div>
+  );
+}
+
+// ─── Ikony ────────────────────────────────────────────────────────────────────
+
+function IconBenefit() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.281m5.94 2.28l-2.28 5.941" />
+    </svg>
+  );
+}
+
+function IconCost() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
+    </svg>
+  );
+}
+
+function IconNet() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
+function IconROI() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+    </svg>
   );
 }
 
 // ─── ResultsPanel ─────────────────────────────────────────────────────────────
 
-export default function ResultsPanel({ result, storageCost }: Props) {
-  const { priceDiff, benefit, purchaseValue, financingCost, totalCost, netResult, breakEvenPrice } = result;
-  const returnRate = purchaseValue > 0 ? netResult / purchaseValue : 0;
+export default function ResultsPanel({ result }: Props) {
+  const { benefit, totalCost, netResult, purchaseValue, breakEvenPrice } = result;
+  const roi = purchaseValue > 0 ? (netResult / purchaseValue) * 100 : 0;
+  const roiPrefix = roi > 0 ? '+' : '';
 
   return (
-    <div className="rounded-2xl bg-white shadow-sm border border-slate-200 p-6 xl:p-8">
-      <h2 className="text-base xl:text-lg font-semibold text-slate-700 mb-4 xl:mb-5 flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-violet-500 inline-block" />
-        Obliczenia
-      </h2>
+    <div className="space-y-4">
 
-      <div className="space-y-0">
-        <ResultRow
-          label="Różnica ceny (T1 − T0)"
-          value={`${num(priceDiff)} PLN/szt.`}
-          highlight={priceDiff > 0 ? 'positive' : 'negative'}
-        />
-        <ResultRow
-          label="Korzyść cenowa brutto"
+      {/* ── KPI grid 2×2 ── */}
+      <div className="grid grid-cols-2 gap-4">
+        <KPICard
+          label="Korzyść brutto"
           value={pln(benefit)}
-          highlight={benefit > 0 ? 'positive' : 'negative'}
+          highlight={benefit >= 0 ? 'positive' : 'negative'}
+          icon={<IconBenefit />}
         />
-        <ResultRow
-          label="Wartość zakupu w T0"
-          value={pln(purchaseValue)}
-        />
-        <ResultRow
-          label="Koszt finansowania (WACC)"
-          value={pln(financingCost)}
-          highlight="negative"
-        />
-        <ResultRow
-          label="Koszty dodatkowe (składowanie / ubezp.)"
-          value={pln(storageCost)}
-          highlight="negative"
-        />
-        <ResultRow
-          label="Łączny koszt wcześniejszego zakupu"
+        <KPICard
+          label="Łączny koszt"
           value={pln(totalCost)}
+          subLabel="WACC + składowanie"
           highlight="negative"
+          icon={<IconCost />}
         />
-        <ResultRow
+        <KPICard
           label="Korzyść netto"
           value={pln(netResult)}
-          highlight={netResult > 0 ? 'positive' : 'negative'}
-          large
+          highlight={netResult >= 0 ? 'positive' : 'negative'}
+          icon={<IconNet />}
+          wide
+        />
+        <KPICard
+          label="ROI zakupu"
+          value={`${roiPrefix}${roi.toFixed(1)} %`}
+          subLabel="względem wartości zakupu"
+          highlight={roi >= 0 ? 'positive' : 'negative'}
+          icon={<IconROI />}
         />
       </div>
 
-      {/* Dynamiczny komentarz */}
-      {netResult !== 0 && (
-        <div
-          className={`mt-4 rounded-xl px-4 py-3 text-sm leading-snug border ${
-            netResult > 0
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              : 'bg-red-50 border-red-200 text-red-800'
-          }`}
-        >
-          {netResult > 0 ? (
-            <>
-              Decyzja generuje{' '}
-              <span className="font-bold tabular-nums">{pln(netResult)}</span>{' '}
-              korzyści netto — wcześniejszy zakup jest finansowo uzasadniony przy założonych parametrach.
-            </>
-          ) : (
-            <>
-              Koszt wcześniejszego zakupu przewyższa potencjalną oszczędność o{' '}
-              <span className="font-bold tabular-nums">{pln(Math.abs(netResult))}</span>{' '}
-              — zakup w T1 byłby korzystniejszy finansowo.
-            </>
-          )}
+      {/* ── Break-even card ── */}
+      <div className="rounded-xl border border-blue-200 bg-blue-50 px-5 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-400 mb-0.5">
+            Próg opłacalności (break-even)
+          </p>
+          <p className="text-sm text-slate-600 leading-snug">
+            Minimalna cena T1, przy której zakup staje się opłacalny
+          </p>
         </div>
-      )}
-
-      {/* Break-even */}
-      <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
-        <div className="flex items-start gap-3">
-          <div className="shrink-0 mt-0.5 rounded-lg bg-white border border-slate-200 p-1.5 shadow-sm">
-            <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" />
-            </svg>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-0.5">
-              Minimalna cena prognozowana (break-even)
-            </p>
-            <p className="text-xl font-bold text-slate-800 tabular-nums">
-              {pln(breakEvenPrice)}<span className="text-sm font-medium text-slate-400 ml-1">/ szt.</span>
-            </p>
-            <p className="text-xs text-slate-400 mt-1">
-              Przy tej cenie decyzja = 0 — korzyść cenowa dokładnie pokrywa koszt kapitału i koszty dodatkowe.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Zwrot */}
-      <div className="mt-3 rounded-xl bg-slate-50 border border-slate-100 p-3 flex items-center justify-between">
-        <p className="text-xs text-slate-400">Zwrot netto / wartość zakupu T0</p>
-        <p className={`text-sm font-semibold tabular-nums ${returnRate > 0 ? 'text-emerald-600' : 'text-red-500'}`}>
-          {pct(returnRate)}
+        <p className="text-xl font-bold tabular-nums text-blue-700 shrink-0">
+          {pln(breakEvenPrice)}<span className="text-sm font-medium text-blue-400 ml-1">/ szt.</span>
         </p>
       </div>
     </div>
