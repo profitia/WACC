@@ -29,45 +29,48 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50 py-10 px-4">
-      
-      <div className="max-w-5xl mx-auto mb-8">
-        <h1 className="text-2xl font-bold text-slate-800">
+    <main className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50 py-10 px-4 xl:px-8">
+
+      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      <div className="max-w-[1400px] mx-auto mb-8">
+        <h1 className="text-2xl xl:text-3xl font-bold text-slate-800 leading-tight">
           Model oszczędności vs. WACC
         </h1>
       </div>
 
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <CalculatorForm values={input} onChange={handleChange} />
+      {/* ── Main grid: 1 col → 2 col (lg) → 3 col (xl) ──────────────────── */}
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-10 items-start">
 
-        <div className="flex flex-col gap-6">
+        {/* Col 1 — Form */}
+        <div className="lg:col-span-1">
+          <CalculatorForm values={input} onChange={handleChange} />
+        </div>
+
+        {/* Col 2 — Results + cards */}
+        <div className="flex flex-col gap-6 lg:col-span-1">
           <DecisionBadge netResult={result.netResult} />
           <ResultsPanel result={result} storageCost={input.storageCost} />
+          <InterpretationCard netResult={result.netResult} />
+          <InfluenceCard
+            priceDiff={result.priceDiff}
+            wacc={input.wacc}
+            months={input.months}
+          />
+        </div>
+
+        {/* Col 3 — Chart (desktop only: moves from below to right column) */}
+        <div className="lg:col-span-2 xl:col-span-1">
+          <SensitivityChart
+            input={input}
+            financingCost={result.financingCost}
+            breakEvenPrice={result.breakEvenPrice}
+          />
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto mt-6">
+      {/* ── Sensitivity table — full width below ──────────────────────────── */}
+      <div className="max-w-[1400px] mx-auto mt-8 xl:mt-10">
         <SensitivityTable input={input} financingCost={result.financingCost} />
-      </div>
-
-      <div className="max-w-5xl mx-auto mt-6">
-        <SensitivityChart
-          input={input}
-          financingCost={result.financingCost}
-          breakEvenPrice={result.breakEvenPrice}
-        />
-      </div>
-
-      <div className="max-w-5xl mx-auto mt-6">
-        <InterpretationCard netResult={result.netResult} />
-      </div>
-
-      <div className="max-w-5xl mx-auto mt-6">
-        <InfluenceCard
-          priceDiff={result.priceDiff}
-          wacc={input.wacc}
-          months={input.months}
-        />
       </div>
     </main>
   );

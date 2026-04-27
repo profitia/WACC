@@ -50,8 +50,8 @@ export default function ResultsPanel({ result, storageCost }: Props) {
   const returnRate = purchaseValue > 0 ? netResult / purchaseValue : 0;
 
   return (
-    <div className="rounded-2xl bg-white shadow-sm border border-slate-200 p-6">
-      <h2 className="text-base font-semibold text-slate-700 mb-4 flex items-center gap-2">
+    <div className="rounded-2xl bg-white shadow-sm border border-slate-200 p-6 xl:p-8">
+      <h2 className="text-base xl:text-lg font-semibold text-slate-700 mb-4 xl:mb-5 flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-violet-500 inline-block" />
         Obliczenia
       </h2>

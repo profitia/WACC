@@ -47,13 +47,13 @@ function InputField({ label, unit, value, onChange, min = 0, step = 1, hint }: I
 
 export default function CalculatorForm({ values, onChange }: Props) {
   return (
-    <div className="rounded-2xl bg-white shadow-sm border border-slate-200 p-6">
-      <h2 className="text-base font-semibold text-slate-700 mb-5 flex items-center gap-2">
+    <div className="rounded-2xl bg-white shadow-sm border border-slate-200 p-6 xl:p-8">
+      <h2 className="text-base xl:text-lg font-semibold text-slate-700 mb-5 xl:mb-6 flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" />
         Założenia wejściowe
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-5">
         <InputField
           label="Cena zakupu w T0"
           unit="PLN / szt."
