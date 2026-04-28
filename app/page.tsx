@@ -29,10 +29,10 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-8 px-4 lg:px-8">
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-10 px-6 xl:px-12">
 
       {/* ── Header ── */}
-      <header className="max-w-[1400px] mx-auto mb-10">
+      <header className="max-w-7xl mx-auto mb-10">
         <div className="flex flex-wrap items-baseline gap-3">
           <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
             Model oszczędności vs. WACC
@@ -45,10 +45,10 @@ export default function Home() {
       </header>
 
       {/* ── Main 2-column layout ── */}
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 xl:grid-cols-[38%_62%] gap-8 items-start">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-[38%_62%] gap-10 items-start">
 
         {/* ── Left column: Form + Key Factors ── */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 min-w-0">
           <CalculatorForm values={input} onChange={handleChange} />
           <InfluenceCard
             priceDiff={result.priceDiff}
@@ -57,17 +57,20 @@ export default function Home() {
           />
         </div>
 
-        {/* ── Right column: dashboard panel ── */}
-        <div className="bg-white rounded-2xl shadow-md p-7 flex flex-col gap-6 min-w-0">
+        {/* ── Right column: Decision → KPIs → Interpretation → Chart ── */}
+        <div className="flex flex-col gap-6 min-w-0">
+
+          {/* A. Decision Hero */}
           <DecisionBadge netResult={result.netResult} />
+
+          {/* B–C. KPI grid + Break-even */}
           <ResultsPanel result={result} storageCost={input.storageCost} />
+
+          {/* D. Interpretation */}
           <InterpretationCard netResult={result.netResult} />
 
-          {/* Chart section */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">
-              Analiza wrażliwości
-            </p>
+          {/* E. Sensitivity Chart */}
+          <div className="min-w-0">
             <SensitivityChart
               input={input}
               financingCost={result.financingCost}
@@ -77,10 +80,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Sensitivity table — full width below ── */}
-      <div className="max-w-[1400px] mx-auto mt-8 xl:mt-10">
+      {/* ── Full-width analysis section ── */}
+      <section className="max-w-7xl mx-auto mt-12">
         <SensitivityTable input={input} financingCost={result.financingCost} />
-      </div>
+      </section>
     </main>
   );
 }

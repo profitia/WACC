@@ -114,10 +114,10 @@ export default function SensitivityChart({ input, financingCost, breakEvenPrice 
   const data = buildData(input, financingCost);
 
   return (
-    <div>
+    <div className="min-w-0">
       {/* Nagłówek */}
       <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">
-        Wykres
+        Analiza wrażliwości
       </p>
       <p className="text-base font-bold text-slate-800 mb-6">
         Wynik netto wg scenariusza ceny T1
